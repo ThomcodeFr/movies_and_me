@@ -4376,7 +4376,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.8.15":
+"dayjs@npm:^1.11.0, dayjs@npm:^1.8.15":
   version: 1.11.0
   resolution: "dayjs@npm:1.11.0"
   checksum: 2d36f6d71345114cdcd89147adf9e05b4f8fe81684e08c8bf1f86b140aa0b86ecc3cae661a9348d96feb7fbefd03e1bc3697303688e95209670abcb36b4ece15
@@ -7717,6 +7717,7 @@ __metadata:
   resolution: "moviesandme@workspace:."
   dependencies:
     "@babel/core": ^7.12.9
+    dayjs: ^1.11.0
     expo: ~44.0.2
     expo-splash-screen: ~0.14.1
     expo-status-bar: ~1.2.0

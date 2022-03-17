@@ -9,22 +9,34 @@ class FilmItem extends React.Component {
     console.log(this.props.film.title)
     return (
       <View>
-        <JSONPretty data={film}></JSONPretty>
-        <Text>{film.title}</Text>
-        <Image
-          style={styles.image}
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-        />
+        <View>
+          <JSONPretty data={film}></JSONPretty>
+        </View>
+        <View style={styles.film_main_container}>
+          <Image
+            style={styles.image}
+            source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
+          />
+          <Text>{film.title}</Text>
+          <Text>{film.vote_average}</Text>
+          <Text>{film.poster_path}</Text>
+          <Text>{film.overview}</Text>
+          <Text>{film.release_date}</Text>
+        </View>
       </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: 20,
-    height: 20,
+  film_main_container: {
+    flexDirection: 'row',
   },
+  image: {
+    width: 120,
+    height: 180,
+  },
+
 })
 
 export default FilmItem

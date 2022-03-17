@@ -4,6 +4,7 @@ import { FlatList, View, TextInput, Button, StyleSheet } from 'react-native'
 // import films from '../Helpers/filmsData'
 import FilmItem from '../Components/FilmItem'
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
+import { ActivityIndicator } from 'react-native'
 
 class Search extends React.Component {
   render() {
@@ -21,13 +22,17 @@ class Search extends React.Component {
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <FilmItem film={item} />}
         />
+        {this._displayLoading()}
       </View>
     )
   }
   constructor(props) {
     super(props)
     this.searchedText = ''
-    this.state = { films: [] }
+    this.state = {
+      films: [],
+      isLoading: false, // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
+    }
   }
 
   _searchTextInputChanged(text) {
@@ -35,9 +40,23 @@ class Search extends React.Component {
   }
 
   _loadFilms() {
-    getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-      this.setState({ films: data.results })
-    })
+    if (this.state.isLoading) return
+    if (this.searchedText.length > 0) {
+      this.setState({ isLoading: true })
+      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
+        this.setState({ films: data.results, isLoading: false })
+      })
+    }
+  }
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size="large" />
+          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
+        </View>
+      )
+    }
   }
 }
 

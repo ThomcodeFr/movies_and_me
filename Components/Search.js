@@ -21,6 +21,13 @@ class Search extends React.Component {
           data={this.state.films}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => <FilmItem film={item} />}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            if (this.page < this.totalPages) {
+              // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
+              this._loadFilms()
+            }
+          }}
         />
         {this._displayLoading()}
       </View>
@@ -33,6 +40,8 @@ class Search extends React.Component {
       films: [],
       isLoading: false, // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     }
+    this.page = 0
+    this.totalPages = 0
   }
 
   _searchTextInputChanged(text) {
@@ -40,14 +49,22 @@ class Search extends React.Component {
   }
 
   _loadFilms() {
-    if (this.state.isLoading) return
-    if (this.searchedText.length > 0) {
-      this.setState({ isLoading: true })
-      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-        this.setState({ films: data.results, isLoading: false })
-      })
-    }
+    if (this.searchedText.length == 0 || this.state.isLoading) return
+    this.setState({ isLoading: true })
+    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) => {
+          this.page = data.page
+          this.totalPages = data.total_pages
+          this.setState({
+            // ... syntaxe Javascript ES6 qui permet de recopier
+            // et de fusionner les deux tableaux
+            // ⟺ films: this.state.films.concat(data.results)
+            films: [...this.state.films, ...data.results],
+            isLoading: false
+        })
+      },
+    )
   }
+
   _displayLoading() {
     if (this.state.isLoading) {
       return (

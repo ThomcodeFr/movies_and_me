@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from 'axios'
 import { API_TOKEN } from '@env'
 
 const getFilmsFromApiWithSearchedText = async (text) => {
@@ -15,6 +15,10 @@ const getFilmsFromApiWithSearchedText = async (text) => {
   return response.data
 }
 const getImageFromApi = (name) => {
+  if (name === null || name === undefined)
+    return require('../Assets/images/filmVide.png')
+  // 'https://image.tmdb.org/t/p/original' + name
+  // 'https://image.tmdb.org/t/p/w300' + name
   return { uri: 'https://image.tmdb.org/t/p/w300' + name }
 }
 

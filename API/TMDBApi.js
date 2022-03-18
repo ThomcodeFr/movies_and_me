@@ -2,13 +2,13 @@ import axios from 'axios'
 import { API_TOKEN } from '@env'
 
 const getFilmsFromApiWithSearchedText = async (text, page) => {
-/*   await slowNetwork()
- */  const url =
+  /*   await slowNetwork()
+   */ const url =
     'https://api.themoviedb.org/3/search/movie?api_key=' +
     API_TOKEN +
     '&language=fr&query=' +
     text +
-    "&page=" +
+    '&page=' +
     page
   const response = await axios.get(url)
   console.log('--getFilmsFromApiWithSearchedText--')
@@ -17,6 +17,18 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
   console.log('--fin getFilmsFromApiWithSearchedText--')
   return response.data
 }
+
+const getFilmDetailFromApi = async (id) => {
+  const url =
+    'https://api.themoviedb.org/3/movie/' +
+    id +
+    '?api_key=' +
+    API_TOKEN +
+    '&language=fr'
+  const response = await axios.get(url)
+  return response.data
+}
+
 const getImageFromApi = (name) => {
   if (name === null || name === undefined)
     return require('../Assets/images/filmVide.png')
@@ -31,4 +43,9 @@ const sleep = (milliseconds) => {
   await sleep(5000)
 }
  */
-export { getFilmsFromApiWithSearchedText, getImageFromApi }
+export default getFilmsFromApiWithSearchedText
+export {
+  getFilmDetailFromApi,
+  getImageFromApi,
+  getFilmsFromApiWithSearchedText,
+}

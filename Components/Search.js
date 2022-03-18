@@ -1,47 +1,86 @@
 // Components/Search.js
 import React from 'react'
-import { FlatList, View, TextInput, Button, StyleSheet } from 'react-native'
+import {
+  FlatList,
+  View,
+  TextInput,
+  Button,
+  SafeAreaView,
+  StyleSheet,
+} from 'react-native'
 // import films from '../Helpers/filmsData'
 import FilmItem from '../Components/FilmItem'
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
 import { ActivityIndicator } from 'react-native'
 
 class Search extends React.Component {
-  render() {
-    console.log('RENDER')
-    return (
-      <View style={styles.main_container}>
-        <TextInput
-          placeholder="Titre du film"
-          style={{ styles }}
-          onChangeText={(text) => this._searchTextInputChanged(text)}
-        />{' '}
-        <Button title="Rechercher" onPress={() => this._loadFilms()} />
-        <FlatList
-          data={this.state.films}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <FilmItem film={item} />}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (this.page < this.totalPages) {
-              // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
-              this._loadFilms()
-            }
-          }}
-        />
-        {this._displayLoading()}
-      </View>
-    )
-  }
   constructor(props) {
     super(props)
     this.searchedText = ''
     this.state = {
       films: [],
+      height: 0,
       isLoading: false, // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     }
     this.page = 0
     this.totalPages = 0
+  }
+  render() {
+    console.log('RENDER')
+    return (
+      <SafeAreaView style={{ marginTop: 20, flex: 1 }}>
+        <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <TextInput
+            style={styles.textinput}
+            placeholder="Titre du film"
+            onChangeText={(text) => this._searchTextInputChanged(text)}
+            onSubmitEditing={() => this._searchFilms()}
+          />
+          <Button title="Rechercher" onPress={() => this._searchFilms()} />
+          <FlatList
+            onLayout={(e) => {
+              this.setState({ height: e.nativeEvent.layout.height })
+              console.log(e.nativeEvent.layout.height)
+            }}
+            style={{
+              flexGrow: 1,
+              height: this.state.height,
+            }}
+            data={this.state.films}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <FilmItem film={item} />}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (this.page < this.totalPages) {
+                this._loadFilms()
+              }
+            }}
+          />
+          {this._displayLoading()}
+        </View>
+      </SafeAreaView>
+    )
+  }
+
+  _searchFilms() {
+    this.page = 0
+    this.totalPages = 0
+    this.setState(
+      {
+        films: [],
+      },
+      () => {
+        console.log(
+          'Page : ' +
+            this.page +
+            ' / TotalPages : ' +
+            this.totalPages +
+            ' / Nombre de films : ' +
+            this.state.films.length
+        )
+        this._loadFilms()
+      }
+    )
   }
 
   _searchTextInputChanged(text) {
@@ -51,17 +90,15 @@ class Search extends React.Component {
   _loadFilms() {
     if (this.searchedText.length == 0 || this.state.isLoading) return
     this.setState({ isLoading: true })
-    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then((data) => {
-          this.page = data.page
-          this.totalPages = data.total_pages
-          this.setState({
-            // ... syntaxe Javascript ES6 qui permet de recopier
-            // et de fusionner les deux tableaux
-            // ⟺ films: this.state.films.concat(data.results)
-            films: [...this.state.films, ...data.results],
-            isLoading: false
+    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
+      (data) => {
+        this.page = data.page
+        this.totalPages = data.total_pages
+        this.setState({
+          films: [...this.state.films, ...data.results],
+          isLoading: false,
         })
-      },
+      }
     )
   }
 
@@ -82,9 +119,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     flex: 1,
   },
+
+  button: {
+    marginLeft: 5,
+    marginRight: 5,
+  },
+
   textinput: {
     marginLeft: 5,
     marginRight: 5,
+    marginBottom: 10,
     height: 50,
     borderColor: '#000000',
     borderWidth: 1,

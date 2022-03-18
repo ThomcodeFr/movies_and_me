@@ -8,7 +8,7 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
     API_TOKEN +
     '&language=fr&query=' +
     text +
-    '&page=' +
+    "&page=" +
     page
   const response = await axios.get(url)
   console.log('--getFilmsFromApiWithSearchedText--')
@@ -27,8 +27,8 @@ const getImageFromApi = (name) => {
 const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }
-async function slowNetwork() {
+/* async function slowNetwork() {
   await sleep(5000)
 }
-
+ */
 export { getFilmsFromApiWithSearchedText, getImageFromApi }

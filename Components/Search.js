@@ -62,6 +62,10 @@ class Search extends React.Component {
     )
   }
 
+  displayDetailForFilm = (idFilm) => {
+    console.log('film.id=' + idFilm)
+  }
+
   _searchFilms() {
     this.page = 0
     this.totalPages = 0

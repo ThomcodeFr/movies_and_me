@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import 'react-json-pretty/themes/adventure_time.css'
 /* import JSONPretty from 'react-json-pretty'
- */import { getImageFromApi } from '../API/TMDBApi'
+ */ import { getImageFromApi } from '../API/TMDBApi'
 import dayjs from 'dayjs'
 import { Pressable } from 'react-native'
 
@@ -40,6 +40,7 @@ class FilmItem extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
   film_main_container: {
     flexDirection: 'row',
     marginLeft: 30,
@@ -51,10 +52,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 20,
   },
+  
   vote_average: {
     fontWeight: 'bold',
-    fontSize: 80,
   },
+
   titreFilm: {
     fontWeight: 'bold',
     marginRight: 50,
@@ -70,7 +72,6 @@ const styles = StyleSheet.create({
   },
   Release_date_film: {
     fontSize: 16,
-
   },
   image: {
     width: 120,

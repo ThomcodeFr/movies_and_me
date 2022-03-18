@@ -12,12 +12,24 @@ import { getFilmDetailFromApi, getImageFromApi } from '../API/TMDBApi'
 // import JSONPretty from 'react-json-pretty'
 import dayjs from 'dayjs'
 import numeral from 'numeral'
+import { connect } from 'react-redux'
+import { Pressable } from 'react-native'
 
+const mapStateToProps = (state) => {
+  return {
+    favoritesFilm: state.favoritesFilm,
+  }
+}
 
 const styles = StyleSheet.create({
+  favorite: {
+    alignItems: 'center',
+  },
+
   main_container: {
     flex: 1,
   },
+  
   loading_container: {
     position: 'absolute',
     left: 0,
@@ -97,6 +109,15 @@ class FilmDetail extends React.Component {
 
   componentWillUnmount() {
     console.log('Component FilmDetail componentWillUnmount')
+    console.log('componentDidUpdate : ')
+    console.log(this.props.favoritesFilm)
+  }
+
+  _toggleFavorite() {
+    // Action Redux
+    const action = { type: 'TOGGLE_FAVORITE', value: this.state.film }
+    // Envoi de l'action au Store Redux
+    this.props.dispatch(action)
   }
 
   _displayFilm() {
@@ -110,6 +131,20 @@ class FilmDetail extends React.Component {
             source={getImageFromApi(film.backdrop_path ?? film.poster_path)}
           />
           <Text style={styles.title_text}>{film.title}</Text>
+          <Pressable
+            style={styles.favorite}
+            onPress={() => this._toggleFavorite()}
+          >
+            <Text>{'Favoris'}</Text>
+            <Text>
+              {this.props.favoritesFilm.findIndex(
+                (item) => item.id === this.state.film.id
+              ) !== -1
+                ? '♥'
+                : '♡'}
+            </Text>
+          </Pressable>
+
           <Text style={styles.description_text}>{film.overview}</Text>
           <Text style={styles.default_text}>
             Sorti le {dayjs(new Date(film.release_date)).format('DD/MM/YYYY')}
@@ -144,6 +179,7 @@ class FilmDetail extends React.Component {
     }
   }
   render() {
+    console.log(this.props) /* "favoritesFilm": Array [] */
     const { idFilm } = this.props.navigation.state.params
     //console.log(this.props.navigation)
     console.log('Component FilmDetail rendu idFilm = ' + idFilm)
@@ -157,4 +193,4 @@ class FilmDetail extends React.Component {
   }
 }
 
-export default FilmDetail
+export default connect(mapStateToProps)(FilmDetail)

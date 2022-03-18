@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   main_container: {
     flex: 1,
   },
-  
+
   loading_container: {
     position: 'absolute',
     left: 0,
@@ -130,7 +130,7 @@ class FilmDetail extends React.Component {
             style={styles.image}
             source={getImageFromApi(film.backdrop_path ?? film.poster_path)}
           />
-          <Text style={styles.title_text}>{film.title}</Text>
+          <Text style={ styles.title_text }>{ film.title }</Text>
           <Pressable
             style={styles.favorite}
             onPress={() => this._toggleFavorite()}

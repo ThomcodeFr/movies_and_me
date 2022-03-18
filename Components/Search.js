@@ -11,7 +11,9 @@ import {
 } from 'react-native'
 // import films from '../Helpers/filmsData'
 import FilmItem from '../Components/FilmItem'
-import {getFilmsFromApiWithSearchedText} from '../API/TMDBApi'
+import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
+import { connect } from 'react-redux'
+
 
 const styles = StyleSheet.create({
   main_container: {
@@ -43,7 +45,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
 
 class Search extends React.Component {
   constructor(props) {
@@ -137,11 +138,19 @@ class Search extends React.Component {
               height: this.state.height,
             }}
             data={this.state.films}
+            extraData={this.props.favoritesFilm}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => (
               <FilmItem
                 film={item}
                 displayDetailForFilm={this.displayDetailForFilm}
+                isFilmFavorite={
+                  this.props.favoritesFilm.findIndex(
+                    (film) => film.id === item.id
+                  ) !== -1
+                    ? true
+                    : false
+                }
               />
             )}
             onEndReachedThreshold={0.5}
@@ -158,4 +167,10 @@ class Search extends React.Component {
   }
 }
 
-export default Search
+const mapStateToProps = (state) => {
+  return {
+    favoritesFilm: state.favoritesFilm,
+  }
+}
+
+export default connect(mapStateToProps)(Search)

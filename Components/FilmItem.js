@@ -6,10 +6,12 @@ import 'react-json-pretty/themes/adventure_time.css'
 import dayjs from 'dayjs'
 import { Pressable } from 'react-native'
 
+
+
 class FilmItem extends React.Component {
   render() {
     //const film = this.props.film
-    const { film, displayDetailForFilm } = this.props
+    const { film, displayDetailForFilm, isFilmFavorite } = this.props
     console.log(this.props.film.title)
     return (
       <View>
@@ -24,7 +26,7 @@ class FilmItem extends React.Component {
           <View style={styles.film_description}>
             <View style={styles.titreVote}>
               <Pressable onPress={() => displayDetailForFilm(film.id)}>
-                <Text style={styles.titreFilm}>{film.title}</Text>
+                <Text style={styles.titreFilm}>{(isFilmFavorite ? '♥ ': '') + film.title}</Text>
               </Pressable>
               <Text>{film.vote_average}</Text>
             </View>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginLeft: 20,
   },
-  
+
   vote_average: {
     fontWeight: 'bold',
   },

@@ -8,7 +8,8 @@ import { Pressable } from 'react-native'
 
 class FilmItem extends React.Component {
   render() {
-    const film = this.props.film
+    //const film = this.props.film
+    const { film, displayDetailForFilm } = this.props
     console.log(this.props.film.title)
     return (
       <View>
@@ -22,7 +23,7 @@ class FilmItem extends React.Component {
           />
           <View style={styles.film_description}>
             <View style={styles.titreVote}>
-              <Pressable onPress={() => alert('clicked')}>
+              <Pressable onPress={() => displayDetailForFilm(film.id)}>
                 <Text style={styles.titreFilm}>{film.title}</Text>
               </Pressable>
               <Text>{film.vote_average}</Text>

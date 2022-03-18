@@ -48,7 +48,12 @@ class Search extends React.Component {
             }}
             data={this.state.films}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <FilmItem film={item} />}
+            renderItem={({ item }) => (
+              <FilmItem
+                film={item}
+                displayDetailForFilm={this.displayDetailForFilm}
+              />
+            )}
             onEndReachedThreshold={0.5}
             onEndReached={() => {
               if (this.page < this.totalPages) {
@@ -63,6 +68,7 @@ class Search extends React.Component {
   }
 
   displayDetailForFilm = (idFilm) => {
+    this.displayDetailForFilm
     console.log('film.id=' + idFilm)
   }
 

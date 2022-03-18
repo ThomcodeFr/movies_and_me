@@ -11,9 +11,8 @@ class FilmItem extends React.Component {
     const film = this.props.film
     console.log(this.props.film.title)
     return (
-    <Pressable onPress={ () => alert("clicked") } >
       <View>
-       {/*  <View>
+        {/*  <View>
           <JSONPretty data={film}></JSONPretty>
         </View> */}
         <View style={styles.film_main_container}>
@@ -23,7 +22,9 @@ class FilmItem extends React.Component {
           />
           <View style={styles.film_description}>
             <View style={styles.titreVote}>
-              <Text style={styles.titreFilm}>{film.title}</Text>
+              <Pressable onPress={() => alert('clicked')}>
+                <Text style={styles.titreFilm}>{film.title}</Text>
+              </Pressable>
               <Text>{film.vote_average}</Text>
             </View>
             <Text style={styles.OverviewFilm}>{film.overview}</Text>
@@ -32,8 +33,7 @@ class FilmItem extends React.Component {
             </Text>
           </View>
         </View>
-        </View>
-        </Pressable>
+      </View>
     )
   }
 }

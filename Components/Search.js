@@ -1,19 +1,10 @@
 // Components/Search.js
 import React from 'react'
-import {
-  FlatList,
-  View,
-  TextInput,
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native'
+import { View, TextInput, Button, SafeAreaView, StyleSheet } from 'react-native'
 // import films from '../Helpers/filmsData'
-import FilmItem from '../Components/FilmItem'
+// import FilmItem from '../Components/FilmItem'
 import { getFilmsFromApiWithSearchedText } from '../API/TMDBApi'
-import { connect } from 'react-redux'
-
+import FilmList from '../Components/FilmList'
 
 const styles = StyleSheet.create({
   main_container: {
@@ -59,6 +50,21 @@ class Search extends React.Component {
     this.totalPages = 0
   }
 
+  _loadFilms = (doResetList = false) => {
+    if (this.searchedText.length == 0 || this.state.isLoading) return
+    this.setState({ isLoading: true })
+    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
+      (data) => {
+        this.page = data.page
+        this.totalPages = data.total_pages
+        this.setState({
+          films: [...this.state.films, ...data.results],
+          isLoading: false,
+        })
+      }
+    )
+  }
+
   _searchFilms() {
     this.page = 0
     this.totalPages = 0
@@ -76,44 +82,12 @@ class Search extends React.Component {
             this.state.films.length
         )
         this._loadFilms()
-      },
+      }
     )
   }
 
   _searchTextInputChanged(text) {
     this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
-  }
-
-  _loadFilms() {
-    if (this.searchedText.length == 0 || this.state.isLoading) return
-    this.setState({ isLoading: true })
-    getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
-      (data) => {
-        this.page = data.page
-        this.totalPages = data.total_pages
-        this.setState({
-          films: [...this.state.films, ...data.results],
-          isLoading: false,
-        })
-      },
-    )
-  }
-
-  _displayLoading() {
-    if (this.state.isLoading) {
-      return (
-        <View style={styles.loading_container}>
-          <ActivityIndicator size="large" />
-          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
-        </View>
-      )
-    }
-  }
-
-  displayDetailForFilm = (idFilm) => {
-    //this.displayDetailForFilm
-    console.log('film.id=' + idFilm)
-    this.props.navigation.navigate('FilmDetail', { idFilm: idFilm })
   }
 
   render() {
@@ -127,50 +101,18 @@ class Search extends React.Component {
             onChangeText={(text) => this._searchTextInputChanged(text)}
             onSubmitEditing={() => this._searchFilms()}
           />
-          <Button title="Rechercher" onPress={() => this._searchFilms()} />
-          <FlatList
-            onLayout={(e) => {
-              this.setState({ height: e.nativeEvent.layout.height })
-              console.log(e.nativeEvent.layout.height)
-            }}
-            style={{
-              flexGrow: 1,
-              height: this.state.height,
-            }}
-            data={this.state.films}
-            extraData={this.props.favoritesFilm}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <FilmItem
-                film={item}
-                displayDetailForFilm={this.displayDetailForFilm}
-                isFilmFavorite={
-                  this.props.favoritesFilm.findIndex(
-                    (film) => film.id === item.id
-                  ) !== -1
-                    ? true
-                    : false
-                }
-              />
-            )}
-            onEndReachedThreshold={0.5}
-            onEndReached={() => {
-              if (this.page < this.totalPages) {
-                this._loadFilms()
-              }
-            }}
+          <Button title="Rechercher" onPress={() => this._loadFilms(true)} />
+          <FilmList
+            films={this.state.films}
+            loadFilms={() => this._loadFilms()}
+            page={this.page}
+            totalPages={this.totalPages}
+            favoriteList={false}
           />
-          {this._displayLoading()}
         </View>
       </SafeAreaView>
     )
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    favoritesFilm: state.favoritesFilm,
-  }
-}
-
-export default connect(mapStateToProps)(Search)
+export default Search

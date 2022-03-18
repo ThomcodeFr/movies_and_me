@@ -6,8 +6,6 @@ import 'react-json-pretty/themes/adventure_time.css'
 import dayjs from 'dayjs'
 import { Pressable } from 'react-native'
 
-
-
 class FilmItem extends React.Component {
   render() {
     //const film = this.props.film
@@ -17,7 +15,8 @@ class FilmItem extends React.Component {
       <View>
         {/*  <View>
           <JSONPretty data={film}></JSONPretty>
-        </View> */}
+        </View> */
+        }
         <View style={styles.film_main_container}>
           <Image
             style={styles.image}

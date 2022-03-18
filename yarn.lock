@@ -7836,6 +7836,7 @@ __metadata:
     expo-splash-screen: ~0.14.1
     expo-status-bar: ~1.2.0
     metro-bundler: ^0.22.1
+    numeral: ^2.0.6
     react: 17.0.1
     react-dom: 17.0.1
     react-json-pretty: ^2.2.0
@@ -8121,6 +8122,13 @@ __metadata:
   version: 1.0.1
   resolution: "number-is-nan@npm:1.0.1"
   checksum: 13656bc9aa771b96cef209ffca31c31a03b507ca6862ba7c3f638a283560620d723d52e626d57892c7fff475f4c36ac07f0600f14544692ff595abff214b9ffb
+  languageName: node
+  linkType: hard
+
+"numeral@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "numeral@npm:2.0.6"
+  checksum: 89f011116539692bf53fde380adeb0579623d00f782703c71c0062d4a8686770c404a041ff4eef454de53925a9f75bba1fa52726057b13d40473f707730b07c2
   languageName: node
   linkType: hard
 

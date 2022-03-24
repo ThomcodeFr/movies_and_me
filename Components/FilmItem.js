@@ -1,8 +1,8 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet } from 'react-native'
 import 'react-json-pretty/themes/adventure_time.css'
-/* import JSONPretty from 'react-json-pretty'
- */ import { getImageFromApi } from '../API/TMDBApi'
+/* import JSONPretty from 'react-json-pretty' */
+import { getImageFromApi } from '../API/TMDBApi'
 import dayjs from 'dayjs'
 import { Pressable } from 'react-native'
 

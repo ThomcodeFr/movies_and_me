@@ -10,9 +10,9 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
     text +
     '&page=' +
     page
+  console.log(url)
   const response = await axios.get(url)
   console.log('--getFilmsFromApiWithSearchedText--')
-  console.log(url)
   console.log(response.data)
   console.log('--fin getFilmsFromApiWithSearchedText--')
   return response.data

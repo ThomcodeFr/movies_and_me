@@ -8,7 +8,6 @@ import {
   Image,
 } from 'react-native'
 import { getFilmDetailFromApi, getImageFromApi } from '../API/TMDBApi'
-// import 'react-json-pretty/themes/adventure_time.css'
 // import JSONPretty from 'react-json-pretty'
 import dayjs from 'dayjs'
 import numeral from 'numeral'

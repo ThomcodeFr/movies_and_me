@@ -13,4 +13,3 @@ const Store = createStore(persistedReducer)
 const Persistor = persistStore(Store)
 
 export { Store, Persistor }
-export default createStore(toggleFavorite)

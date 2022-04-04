@@ -5,6 +5,7 @@ import FilmDetail from '../Components/FilmDetail'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import Favorites from '../Components/Favorites'
 
+// Options pour les onglets, taille, police etc...
 const tabBarOptions = {
   activeBackgroundColor: '#DDDDDD', // Couleur d'arrière-plan de l'onglet sélectionné
   inactiveBackgroundColor: '#FFFFFF', // Couleur d'arrière-plan des onglets non sélectionnés
@@ -20,8 +21,8 @@ const tabBarOptions = {
   },
 }
 
-
-const FavoritesStackNavigator = createStackNavigator ({
+//stackNavigator -> Défini plusieurs écrans les uns sur les autres mais un seul est sur la scène
+const FavoritesStackNavigator = createStackNavigator({
   Favorites: {
     screen: Favorites,
     navigationOptions: {
@@ -30,9 +31,8 @@ const FavoritesStackNavigator = createStackNavigator ({
   },
   FilmDetail: {
     screen: FilmDetail,
-  }
+  },
 })
-
 
 const SearchStackNavigator = createStackNavigator({
   Search: {
@@ -41,8 +41,8 @@ const SearchStackNavigator = createStackNavigator({
       title: 'Rechercher',
     },
   },
-    FilmDetail: {
-    screen: FilmDetail
+  FilmDetail: {
+    screen: FilmDetail,
   },
 })
 

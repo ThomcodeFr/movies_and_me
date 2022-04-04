@@ -1,7 +1,7 @@
 import React from 'react'
 import FilmItem from './FilmItem'
 import { View } from 'react-native'
-import { FlatList } from 'react-native'
+import { FlatList } from 'react-native' 
 import { StyleSheet } from 'react-native'
 import { connect } from 'react-redux'
 import { withNavigation } from 'react-navigation'
@@ -41,9 +41,9 @@ class FilmList extends React.Component {
             flexGrow: 1,
             height: this.state.height,
           }}
-          onEndReachedTeshold={0.5}
+          onEndReachedTeshold={0.5} // dès qu'on arrive à la moitié de la liste, il recherchage les films suivant
           onEndReached={() => {
-            if (this.props.favoriteList === true) return
+            if (this.props.favoriteList === true) return // on compare par type =>
             if (this.props.page < this.props.totalPages) {
               console.log(
                 'FilmList onEndReached this.props.page=' +
@@ -51,13 +51,13 @@ class FilmList extends React.Component {
                   ' this.props.totalPages=' +
                   this.props.totalPages
               )
-              this.props.loadFilms()
+              this.props.loadFilms() // on passe la méthode props
             }
           }}
           keyExtractor={(item) => item.listId}
           data={this.props.films}
-          extraData={this.props.favoritesFilm}
-          renderItem={({ item }) => (
+          extraData={this.props.favoritesFilm} //depend de la liste des films favoris, state global
+          renderItem={({ item }) => ( //comment chaque film va être afficher individuellement chaque film va être un item
             <FilmItem
               film={item}
               displayDetailForFilm={this._displayDetailForFilm}

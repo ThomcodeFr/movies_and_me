@@ -1,6 +1,11 @@
 import axios from 'axios'
 import { API_TOKEN } from '@env'
 
+// async await est un raccourcies synthaxiques de promesses
+// async => async s'exécute de façon synchrone jusqu'à ce qu'elle atteigne sa première expression await , où elle est suspendue jusqu'à ce que la tâche attendue soit terminée. Dans le même temps, le contrôle retourne à l'appelant de la méthode
+// await => attend qu'une promesse soit résolue ou rejetée
+
+
 const getFilmsFromApiWithSearchedText = async (text, page) => {
   /*   await slowNetwork()
    */ const url =

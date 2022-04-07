@@ -3,7 +3,7 @@ import { View,  SafeAreaView } from 'react-native'
 import FilmList from '../Components/FilmList'
 import { connect } from 'react-redux'
 
-
+// Ce component affiche la liste de favoris
 
 const mapStateToProps = (state) => {
   return {

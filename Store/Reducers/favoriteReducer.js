@@ -13,7 +13,7 @@ function toggleFavorite(state = initialState, action) {
       if (favoriteFilmIndex !== -1) {
         // Le film est déjà dans les favoris, on le supprime de la liste
         nextState = {
-          ...state,
+          ...state, // les 3 points servent à faire des copies des objets, on l'objet initial et l'objet final, on peut revenir en arrière très facilement (robustesse du code)
           favoritesFilm: state.favoritesFilm.filter(
             (item, index) => index !== favoriteFilmIndex
           ),

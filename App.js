@@ -8,7 +8,7 @@ import { PersistGate } from 'redux-persist/lib/integration/react'
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={Store}>
+      <Provider store={Store}> {/* permet de définir un espace de stockage */}
         <PersistGate persistor={Persistor}>
           <Navigation />
         </PersistGate>
